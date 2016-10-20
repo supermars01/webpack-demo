@@ -1,0 +1,8 @@
+$mg : 50px;
+.listWrapper {
+	margin: $mg 0 200px 0;
+	.list {
+	    float: left;
+	    margin: $mg;
+	}
+}
