@@ -98,8 +98,8 @@ module.exports = function(options) {
 
     if (debug) {
         extractCSS = new ExtractTextPlugin('css/[contenthash:8].[name].css')
-        cssLoader = ExtractTextPlugin.extract('style','css')
-        sassLoader = ExtractTextPlugin.extract('style','css!sass')
+        cssLoader = ExtractTextPlugin.extract('style','css!postcss-loader')
+        sassLoader = ExtractTextPlugin.extract('style','css!postcss-loader!sass')
 
         plugins.push(extractCSS)
     } else {
@@ -107,8 +107,8 @@ module.exports = function(options) {
             // 当allChunks指定为false时，css loader必须指定怎么处理
             allChunks: true
         })
-        cssLoader = ExtractTextPlugin.extract('style','css?minimize')
-        sassLoader = ExtractTextPlugin.extract('style','css?minimize!sass')
+        cssLoader = ExtractTextPlugin.extract('style','css?minimize!postcss-loader')
+        sassLoader = ExtractTextPlugin.extract('style','css?minimize!postcss-loader!sass')
 
         plugins.push(
             extractCSS,
@@ -172,6 +172,10 @@ module.exports = function(options) {
             //     test: /\.html$/,
             //     　　　　　loader: 'html-withimg-loader'　　
             // }, 
+        },
+        // 使用postcss 处理css sutoprefixer
+        postcss: function () {
+           return [require('autoprefixer')];
         },
         resolve: {
             extensions: ['', '.js', '.css', '.scss', '.tpl', '.png', '.jpg'],
