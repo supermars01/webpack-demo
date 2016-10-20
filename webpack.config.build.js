@@ -87,26 +87,28 @@ module.exports = function(options) {
             jQuery: "jquery",
             "window.jQuery": "jquery"
         }),
-        new CommonsChunkPlugin({
-            name: 'vendor',
-            children: true,
-            minChunks: Infinity
-        })
+        new CommonsChunkPlugin('vendor','js/[chunkhash:8].[name].js')
+        // new CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     // children: true,
+        //     minChunks: Infinity,
+        //     chunks:'[name]'
+        // })
     );
 
     if (debug) {
-        extractCSS = new ExtractTextPlugin('css/[name].css?[contenthash]')
-        cssLoader = ExtractTextPlugin.extract('style', 'css')
-        sassLoader = ExtractTextPlugin.extract('style', 'css', 'sass')
+        extractCSS = new ExtractTextPlugin('css/[contenthash:8].[name].css')
+        cssLoader = ExtractTextPlugin.extract('style','css')
+        sassLoader = ExtractTextPlugin.extract('style','css!sass')
 
         plugins.push(extractCSS)
     } else {
         extractCSS = new ExtractTextPlugin('css/[contenthash:8].[name].min.css', {
             // 当allChunks指定为false时，css loader必须指定怎么处理
-            allChunks: false
+            allChunks: true
         })
-        cssLoader = ExtractTextPlugin.extract('style', 'css?minimize')
-        sassLoader = ExtractTextPlugin.extract('style', 'css?minimize', 'sass')
+        cssLoader = ExtractTextPlugin.extract('style','css?minimize')
+        sassLoader = ExtractTextPlugin.extract('style','css?minimize!sass')
 
         plugins.push(
             extractCSS,
@@ -130,13 +132,12 @@ module.exports = function(options) {
     var config = {
         entry: Object.assign(entries(), {
             // 用到什么公共lib（例如jquery.js），就把它加进vendor去，目的是将公用库单独提取打包
-            // 'vendor': ['jquery', 'avalon', 'cm']
             "vendor": ['jquery', 'cm', 'reset']
         }),
         output: {
             path: path.join(__dirname, "dist"),
             // filename: "js/[hash:8]-[name].js",
-            filename: 'js/[hash:8].[name].js',
+            filename: 'js/[chunkhash:8].[name].js',
             chunkFilename: '[chunkhash:8].chunk.js',
             publicPath: publicPath
         },
@@ -178,7 +179,10 @@ module.exports = function(options) {
             alias: pathMap,
             publicPath: '/'
         },
-        plugins: plugins.concat(html_plugins(), new webpack.HotModuleReplacementPlugin())
+        plugins: plugins.concat(
+            html_plugins()
+            // new webpack.HotModuleReplacementPlugin()
+        )
     }
 
     return config;

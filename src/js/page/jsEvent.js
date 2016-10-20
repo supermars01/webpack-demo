@@ -1,10 +1,8 @@
 (function(){
 	//引入公共CSS与页面CSS
 	require('../../css/vendor/reset.css');
-	require('../../css/sprite-base.css');
-	require('../../css/page/jsEvent.css');
 	require('../../css/module/footer.css');
-	
+	require('../../css/page/jsEvent.scss');
 	//引入header
 	require("../module/header.js");
 	//引入jsEvent模块
@@ -13,5 +11,4 @@
 	delegate.addBodyListener();
 	delegate.addListElement($('#list1'),$('#btn1'));
 	delegate.addListElement($('#list2'),$('#btn2'));
-	
 })();
