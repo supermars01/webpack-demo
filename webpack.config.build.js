@@ -139,7 +139,7 @@ module.exports = function(options) {
             // filename: "js/[hash:8]-[name].js",
             filename: 'js/[chunkhash:8].[name].js',
             chunkFilename: '[chunkhash:8].chunk.js',
-            publicPath: publicPath
+            // publicPath: publicPath
         },
         module: {
             loaders: [{
