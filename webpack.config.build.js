@@ -173,7 +173,7 @@ module.exports = function(options) {
             //     　　　　　loader: 'html-withimg-loader'　　
             // }, 
         },
-        // 使用postcss 处理css sutoprefixer
+        // 使用postcss 处理css autoprefixer
         postcss: function () {
            return [require('autoprefixer')];
         },
